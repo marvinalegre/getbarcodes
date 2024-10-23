@@ -19,7 +19,6 @@ app.post("/auth", async (c) => {
   try {
     decodedPayload = await verify(token, c.env.JWT_SECRET);
   } catch (e) {
-    console.log(e);
     return c.json({
       loggedIn: false,
     });
@@ -34,16 +33,29 @@ app.post("/auth", async (c) => {
 app.post("/login", async (c) => {
   const { username, password } = await c.req.json();
 
-  if (username === "marvinalegre" && password === "foobar") {
-    return c.json({
-      success: true,
-      token: await sign({ username: "marvinalegre" }, c.env.JWT_SECRET),
-    });
-  } else {
+  const { results } = await c.env.DB.prepare(
+    "SELECT * FROM users WHERE username = ?"
+  )
+    .bind(username)
+    .all();
+
+  if (results.length === 0) {
     return c.json({
       success: false,
       message: "Invalid username or password",
     });
+  } else if (results.length === 1) {
+    if (password === results[0].password) {
+      return c.json({
+        success: true,
+        token: await sign({ username: username }, c.env.JWT_SECRET),
+      });
+    } else {
+      return c.json({
+        success: false,
+        message: "Invalid username or password",
+      });
+    }
   }
 });
 
