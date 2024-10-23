@@ -29,6 +29,12 @@ export default function Root() {
       <hr />
 
       <Outlet />
+
+      <hr />
+
+      <a href="https://downloadbarcodes.pages.dev">
+        downloadbarcodes.pages.dev
+      </a>
     </>
   );
 }
