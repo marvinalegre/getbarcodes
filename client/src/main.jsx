@@ -3,14 +3,19 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
-import Root from "./routes/root";
+import Root, { loader as rootLoader } from "./routes/root";
 import Index from "./routes/index";
-import Login from "./routes/login";
+import Login, {
+  action as loginAction,
+  loader as loginLoader,
+} from "./routes/login";
+import Logout, { loader as logoutLoader } from "./routes/logout";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    loader: rootLoader,
     children: [
       {
         index: true,
@@ -19,6 +24,13 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+        action: loginAction,
+        loader: loginLoader,
+      },
+      {
+        path: "/logout",
+        element: <Logout />,
+        loader: logoutLoader,
       },
     ],
   },
