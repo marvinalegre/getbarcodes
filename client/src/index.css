@@ -5,3 +5,8 @@ body {
 a {
   display: block;
 }
+
+h1 {
+  color: black;
+  display: inline-block;
+}

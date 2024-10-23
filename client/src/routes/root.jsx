@@ -17,9 +17,10 @@ export default function Root() {
 
   return (
     <>
-      <h1>getbarcodes</h1>
+      <Link to="/">
+        <h1>getbarcodes</h1>
+      </Link>
 
-      <Link to="/">Home</Link>
       {loggedIn ? null : <Link to="login">Login</Link>}
       {loggedIn ? <Link to="logout">Logout</Link> : null}
 
