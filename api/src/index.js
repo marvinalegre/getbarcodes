@@ -1,15 +1,13 @@
 import { Hono } from "hono";
-import { cors } from "hono/cors";
 import { sign, verify } from "hono/jwt";
 
 const app = new Hono();
 
-app.use("*", async function (c, next) {
-  const corsMiddleware = cors({
-    origin: [c.env.FRONTEND],
-  });
+// cors
+app.use("*", async (c, next) => {
+  c.header("Access-Control-Allow-Origin", c.env.FRONTEND);
 
-  await corsMiddleware(c, next);
+  return await next();
 });
 
 app.post("/auth", async (c) => {
