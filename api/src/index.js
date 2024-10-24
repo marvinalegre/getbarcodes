@@ -84,11 +84,38 @@ app.post("/login", async (c) => {
   }
 });
 
-app.get("/barcodes", async (c) => {
+app.get("/auth/barcodes", async (c) => {
   const { results } = await c.env.DB.prepare(
     "SELECT barcodes.id, barcode, product_name, username FROM barcodes join users on barcodes.user_id = users.id"
   ).all();
-  return c.json(results);
+  return c.json({
+    barcodes: results,
+    loggedIn: c.get("loggedIn"),
+    username: c.get("username"),
+  });
+});
+
+// TODO: put this endpoint behind an auth check
+app.post("/auth/add", async (c) => {
+  // TODO: validate these inputs
+  const { barcode, productName } = await c.req.json();
+
+  const { results: users } = await c.env.DB.prepare(
+    "SELECT * FROM users WHERE username = ?"
+  )
+    .bind(c.get("username"))
+    .all();
+  const { id } = users[0];
+
+  await c.env.DB.prepare(
+    "INSERT INTO barcodes (barcode, product_name, user_id) VALUES (?, ?, ?)"
+  )
+    .bind(barcode, productName, id)
+    .all();
+
+  // TODO: do some exception handling
+
+  return c.text("success");
 });
 
 export default app;

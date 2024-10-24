@@ -10,6 +10,7 @@ import Login, {
   loader as loginLoader,
 } from "./routes/login";
 import Logout, { loader as logoutLoader } from "./routes/logout";
+import AddBarcode, { action as addAction } from "./routes/add";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
         path: "/logout",
         element: <Logout />,
         loader: logoutLoader,
+      },
+      {
+        path: "/add",
+        element: <AddBarcode />,
+        action: addAction,
       },
     ],
   },
