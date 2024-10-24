@@ -59,4 +59,11 @@ app.post("/login", async (c) => {
   }
 });
 
+app.get("/barcodes", async (c) => {
+  const { results } = await c.env.DB.prepare(
+    "SELECT barcodes.id, barcode, product_name, username FROM barcodes join users on barcodes.user_id = users.id"
+  ).all();
+  return c.json(results);
+});
+
 export default app;

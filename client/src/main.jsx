@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
 import Root, { loader as rootLoader } from "./routes/root";
-import Index from "./routes/index";
+import Barcodes, { loader as indexLoader } from "./routes/index";
 import Login, {
   action as loginAction,
   loader as loginLoader,
@@ -19,7 +19,8 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Index />,
+        element: <Barcodes />,
+        loader: indexLoader,
       },
       {
         path: "/login",
