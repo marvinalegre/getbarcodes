@@ -3,6 +3,13 @@ import { sign, verify } from "hono/jwt";
 
 const app = new Hono();
 
+app.options("*", (c) => {
+  c.header("Access-Control-Allow-Origin", c.env.FRONTEND);
+  c.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  c.header("Access-Control-Allow-Headers", "Authorization, Content-Type");
+  return c.text("No content");
+});
+
 // cors
 app.use("*", async (c, next) => {
   c.header("Access-Control-Allow-Origin", c.env.FRONTEND);
@@ -10,22 +17,40 @@ app.use("*", async (c, next) => {
   return await next();
 });
 
-app.post("/auth", async (c) => {
-  const { token } = await c.req.json();
+app.use("/auth/*", async (c, next) => {
+  const authHeader = c.req.header("Authorization");
 
-  let decodedPayload;
-  try {
-    decodedPayload = await verify(token, c.env.JWT_SECRET);
-  } catch (e) {
+  c.set("loggedIn", true);
+  if (!authHeader) {
+    c.set("loggedIn", false);
+    return await next();
+  } else {
+    const token = authHeader.split(" ")[1];
+
+    let decodedPayload;
+    try {
+      decodedPayload = await verify(token, c.env.JWT_SECRET);
+    } catch (e) {
+      c.set("loggedIn", false);
+      return await next();
+    }
+
+    c.set("username", decodedPayload.username);
+    return await next();
+  }
+});
+
+app.get("/auth/root", async (c) => {
+  if (c.get("loggedIn")) {
+    return c.json({
+      loggedIn: true,
+      username: c.get("username"),
+    });
+  } else {
     return c.json({
       loggedIn: false,
     });
   }
-
-  return c.json({
-    loggedIn: true,
-    username: decodedPayload.username,
-  });
 });
 
 app.post("/login", async (c) => {
@@ -54,6 +79,8 @@ app.post("/login", async (c) => {
         message: "Invalid username or password",
       });
     }
+  } else {
+    // TODO: respond with an internal error
   }
 });
 

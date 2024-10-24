@@ -23,11 +23,11 @@ export async function action({ request }) {
 }
 
 export async function loader() {
-  const res = await fetch(`${import.meta.env.VITE_BACKEND}/auth`, {
-    method: "POST",
-    body: JSON.stringify({
-      token: localStorage.getItem("token"),
-    }),
+  const res = await fetch(`${import.meta.env.VITE_BACKEND}/auth/root`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
   });
   const { loggedIn } = await res.json();
 
