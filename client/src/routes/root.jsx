@@ -32,9 +32,12 @@ export default function Root() {
 
       <hr />
 
-      <a href="https://downloadbarcodes.pages.dev">
-        downloadbarcodes.pages.dev
-      </a>
+      <p>
+        bulk data download:{" "}
+        <a href="/database.sql" download style={{ display: "inline" }}>
+          database.sql
+        </a>
+      </p>
     </>
   );
 }
