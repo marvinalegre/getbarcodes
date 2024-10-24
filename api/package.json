@@ -2,7 +2,8 @@
   "name": "getbarcodes-api",
   "scripts": {
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy --minify"
+    "deploy": "wrangler deploy --minify",
+    "dump": "wrangler d1 export getbarcodes --remote --output=../client/public/database.sql"
   },
   "dependencies": {
     "hono": "4.6.6"
