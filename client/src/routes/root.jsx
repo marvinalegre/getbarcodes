@@ -22,6 +22,7 @@ export default function Root() {
       </Link>
 
       {loggedIn ? null : <Link to="login">Login</Link>}
+      {loggedIn ? null : <Link to="signup">Sign Up</Link>}
       {loggedIn ? <Link to="logout">Logout</Link> : null}
 
       {loggedIn ? <p>You are logged in as: {username}</p> : null}

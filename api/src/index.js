@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { sign, verify } from "hono/jwt";
+import reservedUsernames from "./reserved-usernames.json";
 
 const app = new Hono();
 
@@ -79,6 +80,43 @@ app.post("/login", async (c) => {
         message: "Invalid username or password",
       });
     }
+  } else {
+    // TODO: respond with an internal error
+  }
+});
+
+app.post("/signup", async (c) => {
+  const { username, password } = await c.req.json();
+
+  const { results } = await c.env.DB.prepare(
+    "SELECT * FROM users WHERE username = ?"
+  )
+    .bind(username)
+    .all();
+
+  if (reservedUsernames.includes(username)) {
+    return c.json({
+      loggedIn: false,
+      err: "This username is already taken.",
+    });
+  }
+
+  if (results.length === 0) {
+    await c.env.DB.prepare(
+      "insert into users (username, password) values (?, ?)"
+    )
+      .bind(username, password)
+      .all();
+
+    return c.json({
+      success: true,
+      token: await sign({ username: username }, c.env.JWT_SECRET),
+    });
+  } else if (results.length === 1) {
+    return c.json({
+      success: false,
+      message: "Username is unavailable",
+    });
   } else {
     // TODO: respond with an internal error
   }

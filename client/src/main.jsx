@@ -9,6 +9,10 @@ import Login, {
   action as loginAction,
   loader as loginLoader,
 } from "./routes/login";
+import SignUp, {
+  action as signUpAction,
+  loader as signUpLoader,
+} from "./routes/signup";
 import Logout, { loader as logoutLoader } from "./routes/logout";
 import AddBarcode, { action as addAction } from "./routes/add";
 import Barcode, { loader as barcodeLoader } from "./routes/barcode";
@@ -29,6 +33,12 @@ const router = createBrowserRouter([
         element: <Login />,
         action: loginAction,
         loader: loginLoader,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
+        action: signUpAction,
+        loader: signUpLoader,
       },
       {
         path: "/logout",
