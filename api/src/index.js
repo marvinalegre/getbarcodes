@@ -118,4 +118,28 @@ app.post("/auth/add", async (c) => {
   return c.text("success");
 });
 
+app.get("/auth/barcode/:barcode", async (c) => {
+  const barcode = c.req.param("barcode");
+
+  const { results } = await c.env.DB.prepare(
+    "SELECT * FROM barcodes WHERE barcode = ?"
+  )
+    .bind(barcode)
+    .all();
+
+  // TODO: validate input, respond accordingly
+  if (results.length === 0) {
+    return c.json({
+      err: "No entry on the database",
+    });
+  } else if (results.length === 1) {
+    return c.json({
+      productName: results[0].product_name,
+      loggedIn: c.get("loggedIn"),
+    });
+  } else {
+    // TODO: err
+  }
+});
+
 export default app;

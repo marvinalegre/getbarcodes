@@ -13,7 +13,7 @@ export async function loader() {
 }
 
 export default function Barcodes() {
-  const { barcodes, loggedIn, username } = useLoaderData();
+  const { barcodes, loggedIn } = useLoaderData();
   const columns = ["barcode", "product name", "contributor"];
 
   return (
@@ -31,9 +31,17 @@ export default function Barcodes() {
             <tr key={row.id}>
               {Object.values(row)
                 .slice(1)
-                .map((value, valueIndex) => (
-                  <td key={valueIndex}>{value}</td>
-                ))}
+                .map((value, valueIndex) => {
+                  if (valueIndex === 0) {
+                    return (
+                      <td key={valueIndex}>
+                        <Link to={`/b/${row.barcode}`}>{value}</Link>
+                      </td>
+                    );
+                  } else {
+                    return <td key={valueIndex}>{value}</td>;
+                  }
+                })}
             </tr>
           ))}
         </tbody>
