@@ -95,7 +95,6 @@ app.get("/auth/barcodes", async (c) => {
   });
 });
 
-// TODO: put this endpoint behind an auth check
 app.post("/auth/add", async (c) => {
   // TODO: validate these inputs
   const { barcode, productName } = await c.req.json();
