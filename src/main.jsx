@@ -9,6 +9,10 @@ import Login, {
   loader as loginLoader,
 } from "./routes/login";
 import Logout, { loader as logoutLoader } from "./routes/logout";
+import SignUp, {
+  action as signUpAction,
+  loader as signUpLoader,
+} from "./routes/signup";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +30,12 @@ const router = createBrowserRouter([
         path: "/logout",
         element: <Logout />,
         loader: logoutLoader,
+      },
+      {
+        path: "/signup",
+        element: <SignUp />,
+        action: signUpAction,
+        loader: signUpLoader,
       },
     ],
   },
