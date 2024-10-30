@@ -4,10 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:client": "vite",
+    "dev:server": "wrangler pages dev",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "wrangler pages deploy dist --project-name getbarcodes"
+    "deploy": "npm run build && wrangler pages deploy"
   },
   "dependencies": {
     "react": "18.3.1",
@@ -15,8 +16,8 @@
     "react-router-dom": "6.27.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "4.3.2",
-    "vite": "5.4.8",
-    "wrangler": "^3.83.0"
+    "@vitejs/plugin-react": "4.3.3",
+    "vite": "5.4.9",
+    "wrangler": "3.83.0"
   }
 }
