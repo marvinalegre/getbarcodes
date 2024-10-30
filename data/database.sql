@@ -6,5 +6,3 @@ CREATE TABLE barcodes (id INTEGER PRIMARY KEY, barcode TEXT UNIQUE, product_name
 INSERT INTO barcodes VALUES(1,'4800030005466','Ideal Australia Harvest Whole Rolled Oats 500g',2);
 INSERT INTO barcodes VALUES(2,'0748485200019','555 Sardines in Tomato Sauce 155g',1);
 INSERT INTO barcodes VALUES(3,'0748485800011','Argentina Corned Beef 175g',1);
-INSERT INTO barcodes VALUES(4,'123','testing',1);
-INSERT INTO barcodes VALUES(5,'234','test2',1);
