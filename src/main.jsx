@@ -4,12 +4,30 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
 import Root, { loader as rootLoader } from "./routes/root";
+import Login, {
+  action as loginAction,
+  loader as loginLoader,
+} from "./routes/login";
+import Logout, { loader as logoutLoader } from "./routes/logout";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     loader: rootLoader,
+    children: [
+      {
+        path: "/login",
+        element: <Login />,
+        action: loginAction,
+        loader: loginLoader,
+      },
+      {
+        path: "/logout",
+        element: <Logout />,
+        loader: logoutLoader,
+      },
+    ],
   },
 ]);
 

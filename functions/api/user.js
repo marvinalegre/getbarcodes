@@ -7,10 +7,9 @@ export async function onRequest(context) {
   const { token } = getCookies(request);
 
   try {
-    const decodedPayload = jwt.verify(token, "secret", {
+    const decodedPayload = jwt.verify(token, context.env.JWT_SECRET, {
       algorithms: ["HS256"],
     });
-    console.log(decodedPayload);
     return Response.json({ loggedIn: true, username: decodedPayload.username });
   } catch (err) {
     console.log(err.message);
