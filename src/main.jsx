@@ -14,6 +14,7 @@ import SignUp, {
   action as signUpAction,
   loader as signUpLoader,
 } from "./routes/signup";
+import AddBarcode, { action as addAction } from "./routes/add";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,11 @@ const router = createBrowserRouter([
         element: <SignUp />,
         action: signUpAction,
         loader: signUpLoader,
+      },
+      {
+        path: "/add",
+        element: <AddBarcode />,
+        action: addAction,
       },
     ],
   },
