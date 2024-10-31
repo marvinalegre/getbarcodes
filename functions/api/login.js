@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import reservedUsernames from "../../utils/reserved-usernames.json";
 import { validUsername } from "../../utils/validation";
+import { compare } from "../../utils/bcrypt";
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -33,7 +34,7 @@ export async function onRequestPost(context) {
     });
   }
 
-  if (users[0].password !== password) {
+  if (compare(password, users[0].password)) {
     return Response.json({
       success: false,
       err: "Invalid username or password",

@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import reservedUsernames from "../../utils/reserved-usernames.json";
 import { validUsername } from "../../utils/validation";
+import { genSalt, hashString } from "../../utils/bcrypt";
 
 export async function onRequestPost(context) {
   const { request, env } = context;
@@ -40,9 +41,11 @@ export async function onRequestPost(context) {
     });
   }
 
+  const hashedPassword = await hashString(password, await genSalt(10));
+
   try {
     await env.DB.prepare("INSERT INTO users (username, password) VALUES (?, ?)")
-      .bind(username, password)
+      .bind(username, hashedPassword)
       .all();
   } catch (err) {
     console.log(err);
