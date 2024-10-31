@@ -1,7 +1,14 @@
 import { Form, redirect, useActionData } from "react-router-dom";
+import { validUsername } from "../../utils/validation";
 
 export async function action({ request }) {
   const formData = await request.formData();
+
+  if (!validUsername(username)) {
+    return {
+      err: "Invalid username",
+    };
+  }
 
   const res = await fetch("/api/signup", {
     method: "post",
@@ -37,10 +44,22 @@ export default function SignUp() {
       <p>{actionData ? actionData.err : ""}</p>
       <Form method="post">
         <label htmlFor="username">username:</label>
-        <input id="username" name="username" />
+        <input
+          id="username"
+          name="username"
+          minLength={3}
+          maxLength={20}
+          required
+        />
         <br />
         <label htmlFor="password">password:</label>
-        <input id="password" name="password" type="password" />
+        <input
+          id="password"
+          name="password"
+          type="password"
+          minLength={12}
+          required
+        />
         <br />
         <button type="submit">sign up</button>
       </Form>
