@@ -30,8 +30,8 @@ export default function Root() {
 
       <p>
         bulk data download:{" "}
-        <a href="/database.sql" download style={{ display: "inline" }}>
-          database.sql
+        <a href="/barcodes.csv" download style={{ display: "inline" }}>
+          barcodes.csv
         </a>
       </p>
     </>

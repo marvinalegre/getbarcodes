@@ -25,4 +25,5 @@ dist-ssr
 
 .wrangler
 _assets
-public/database.sql
+public/barcodes.csv
+_data
