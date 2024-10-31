@@ -1,3 +1,5 @@
+import validbarcode from "barcode-validator";
+
 export async function onRequestPost(context) {
   if (!context.data.username) {
     return Response.json({
@@ -8,6 +10,14 @@ export async function onRequestPost(context) {
 
   const { request, env } = context;
   const { barcode, productName } = await request.json();
+
+  if (!validbarcode(barcode)) {
+    return Response.json({
+      success: false,
+      err: "Invalid barcode",
+    });
+  }
+
   const { results: barcodes } = await env.DB.prepare(
     "SELECT barcode FROM barcodes WHERE barcode = ?"
   )

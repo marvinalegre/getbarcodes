@@ -12,6 +12,7 @@
     "dump": "wrangler d1 export getbarcodes --remote --table=barcodes --output=./_data/barcodes.sql --no-schema"
   },
   "dependencies": {
+    "barcode-validator": "1.0.2",
     "jsonwebtoken": "9.0.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
