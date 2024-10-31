@@ -34,7 +34,7 @@ export async function onRequestPost(context) {
     });
   }
 
-  if (compare(password, users[0].password)) {
+  if (!(await compare(password, users[0].password))) {
     return Response.json({
       success: false,
       err: "Invalid username or password",
