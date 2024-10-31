@@ -4,7 +4,7 @@ import { validUsername } from "../../utils/validation";
 export async function action({ request }) {
   const formData = await request.formData();
 
-  if (!validUsername(username)) {
+  if (!validUsername(formData.get("username"))) {
     return {
       err: "Invalid username",
     };
